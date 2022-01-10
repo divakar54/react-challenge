@@ -25,6 +25,7 @@
 .container {
   width: 30vw;
   margin-left: 1em;
+  margin-bottom: 1em;
   border: 1px solid black;
   display: flex;
   justify-content: space-between;
