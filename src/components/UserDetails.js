@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 const UserDetails = ({userDetail}) => {
+
     return (
         <div>
             User Detail

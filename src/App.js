@@ -4,13 +4,13 @@ import TodosListTable from './components/TodosListTable.js';
 import TodosListComponent from './components/TodosListComponent';
 import UserDetails from './components/UserDetails';
 import SortedTable from './components/SortedTable.js';
+import Counter from './components/Counter';
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [users, setUser] = useState([]);
+
   useEffect(() => {
     getTodosList();
-    getUserList();
   }, [])
 
   const getTodosList = async() => {
@@ -19,15 +19,10 @@ function App() {
     setTodos(TodoList);
   }
 
-  const getUserList =async() =>{
-    const response = await fetch('https://jsonplaceholder.typicode.com/users');
-    const UserList = await response.json();  
-    setUser(UserList);
-  
-  }
   return (
     <div className="App">
-      <TodosListComponent todosList={todos} userList={users}/>
+      {/* <Counter /> */}
+      <TodosListComponent todosList={todos}/>
       {/* <UserDetails userId={}/> */}
       {/* <SortedTable todosList={todos}/> */}
     </div>
