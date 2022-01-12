@@ -1,12 +1,15 @@
-import {Table,TableBody,TableCell,TableContainer,TableRow,TablePagination, Typography, Box} from '@mui/material';
+import {Table,TableBody,TableCell,TableContainer,TableRow,TablePagination, Typography} from '@mui/material';
 import { Button } from "@mui/material";
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
 import UserDetails from './UserDetails';
 import SearchBar from 'material-ui-search-bar';
 import getComparator from '../services/getComparator';
 import EnhancedTableHead from './EnhancedTableHead';
+import { useQuery } from 'react-query';
+import { getUserData } from '../data/fetchData';
 
 export default function TodosListTable({todosList}) {
+
   //states for sorting the columns
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('todoid');
@@ -14,6 +17,10 @@ export default function TodosListTable({todosList}) {
   //states for searching and setting rows
   const [searched, setSearched] = useState('');
   const [rows, setRows] = useState(todosList);
+
+  useEffect(() => {
+    setRows(todosList);
+  }, [todosList])
 
   //states used in pagination
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -46,7 +53,9 @@ export default function TodosListTable({todosList}) {
     setPage(0);
   };
 
+
   const getUserList = async(id) =>{
+    
     const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
     const user = await response.json();  
     return user;
@@ -81,7 +90,7 @@ export default function TodosListTable({todosList}) {
       <div className='TableHeader'>
         <Typography ml={2} >Todo</Typography>
         {/* <Input value={searched} sx={{}} placeholder='Search...' type='search' onChange={e => requestSearch(e)}/> */}
-        <SearchBar value='searched' onChange={(searchedVal) => requestSearch(searchedVal)} onCancelSearch={() => cancelSearch()} />
+        <SearchBar onChange={(searchedVal) => requestSearch(searchedVal)} onCancelSearch={() => cancelSearch()} />
       </div>
     <TableContainer>
       <Table sx={{ width: 800, margin:2, border:1, marginTop: 0 }} aria-label="simple table">
@@ -89,7 +98,6 @@ export default function TodosListTable({todosList}) {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={todosList.length}
             />
         <TableBody>
           {rows.slice().sort(getComparator(order, orderBy))

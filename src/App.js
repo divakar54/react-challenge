@@ -1,10 +1,10 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import TodosListTable from './components/TodosListTable.js';
 import TodosListComponent from './components/TodosListComponent';
-import UserDetails from './components/UserDetails';
-import SortedTable from './components/SortedTable.js';
-import Counter from './components/Counter';
+import {QueryClient, QueryClientProvider }from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient()
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -20,12 +20,15 @@ function App() {
   }
 
   return (
-    <div className="App">
-      {/* <Counter /> */}
-      <TodosListComponent todosList={todos}/>
-      {/* <UserDetails userId={}/> */}
-      {/* <SortedTable todosList={todos}/> */}
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
+      <div className="App">
+        {/* <Counter /> */}
+        <TodosListComponent todosList={todos}/>
+        {/* <UserDetails userId={}/> */}
+        {/* <SortedTable todosList={todos}/> */}
+      </div>
+    </QueryClientProvider>
   );
 }
 
